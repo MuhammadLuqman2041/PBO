@@ -1,0 +1,4 @@
+.custom-button {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}
