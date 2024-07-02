@@ -1,21 +1,13 @@
 package com.main;
 
-import data.Admin;
-import data.Student;
-import exception.custom.IllegalAdminAccess;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class LibrarySystem extends Application {
@@ -28,100 +20,63 @@ public class LibrarySystem extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Admin admin = new Admin();
-        Student student = new Student();
+        primaryStage.setTitle("halaman");
 
-        primaryStage.setTitle("UMM Library");
-        Image image = new Image("file:src/main/java/gambarDepan.png");
-        ImageView imageView = new ImageView(image);
+        Image imageLibrary = new Image("file:src/main/java/PerubahanGambar1.png");
+        ImageView imageViewLibrary = new ImageView(imageLibrary);
+        imageViewLibrary.setFitHeight(720);
+        imageViewLibrary.setFitWidth(1280);
+        imageViewLibrary.setPreserveRatio(false);
 
-        imageView.setFitWidth(1280);
-        imageView.setFitHeight(720);
-        imageView.setPreserveRatio(false);
+        Image imageL = new Image("file:src/main/java/AdminLoginIcon.png");
+        ImageView imageView1 = new ImageView(imageL);
+        imageView1.setFitWidth(120);
+        imageView1.setFitHeight(30);
+        imageView1.setPreserveRatio(true); // Preserve ratio
+        Button adminButton = new Button("Masuk Admin");
+        adminButton.setGraphic(imageView1);
+        adminButton.setStyle("-fx-background-color: rgb(220, 0, 0); -fx-text-fill: #ffff; -fx-font-size: 15px; -fx-background-radius: 30;");
+        adminButton.setTranslateX(-80);
+        adminButton.setTranslateY(40);// Make button background transparent
 
-        //Label
-        Label sceneTitle    = new Label("Login to Library");
-        Label labelNamaPengguna = new Label("Nama pengguna");
-        Label labelKataSandi = new Label("Kata Sandi");
+        Image imageL1 = new Image("file:src/main/java/UserLoginIcon.png");
+        ImageView imageViewL1 = new ImageView(imageL1);
+        imageViewL1.setFitWidth(120);
+        imageViewL1.setFitHeight(30);
+        imageViewL1.setPreserveRatio(true); // Preserve ratio
+        Button studentButton = new Button("Masuk Mahasiswa");
+        studentButton.setGraphic(imageViewL1);
+        studentButton.setStyle("-fx-background-color: rgb(220, 0, 0); -fx-text-fill: #ffff; -fx-font-size: 15px; -fx-background-radius: 30;");
+        studentButton.setTranslateX(-60);
+        studentButton.setTranslateY(40);/// Make button background transparent
 
-        //Notification label
-        Label pesanLoginGagal = new Label("Pengguna tidak ditemukan");
 
-        //Field
-        TextField inputNamaPengguna = new TextField();
-        PasswordField inputKataSandi = new PasswordField();
+        adminButton.setOnAction(event -> {
+            LoginAdmin loginAdmin = new LoginAdmin();
+            loginAdmin.adminlogin();
+            primaryStage.close();
+        });
 
-        //Font Style
-        sceneTitle.setFont(Font.font("Montserrat", FontWeight.BOLD, 20));
-        labelNamaPengguna.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
-        labelKataSandi.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
-        pesanLoginGagal.setFont(Font.font("Roboto", FontWeight.NORMAL, 12));
+        studentButton.setOnAction(event -> {
+            StudentLogin studentLogin = new StudentLogin();
+            studentLogin.LoginStudent();
+            primaryStage.close();
+        });
 
-        //Font Color
-        sceneTitle.setStyle("-fx-text-fill: #FFFFFF;");
-        pesanLoginGagal.setStyle("-fx-text-fill: #FF1E1E;");
+        // Layout setup
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.TOP_RIGHT);
+        grid.setHgap(50);
+        grid.add(adminButton, 0, 0);
+        grid.add(studentButton, 1, 0);
 
-        labelNamaPengguna.setStyle("-fx-text-fill: #FFD700;");
-        labelKataSandi.setStyle("-fx-text-fill: #FFD700;");
 
-        //Font visible Settings
-        pesanLoginGagal.setVisible(false);
-
-        //Button
-        Button tombolMasuk = new Button("Masuk");
-
-        //Grid Layout
-        GridPane tataletak = new GridPane();
-        tataletak.setAlignment(Pos.CENTER);
-
-        tataletak.add(sceneTitle, 0,0);
-
-        tataletak.add(labelNamaPengguna, 0,1);
-        tataletak.add(labelKataSandi, 0,2);
-        tataletak.add(pesanLoginGagal, 0,3);
-
-        tataletak.add(inputNamaPengguna, 1,1);
-        tataletak.add(inputKataSandi, 1,2);
-
-        tataletak.add(tombolMasuk, 1,3);
-
-        tataletak.setVgap(10);
-        tataletak.setHgap(5);
-
-        //Create Window
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(imageView, tataletak);
-        Scene scene =  new Scene(stackPane,1280,720);
+        stackPane.getChildren().addAll(imageViewLibrary,grid);
 
+        Scene scene = new Scene(stackPane, 1280, 720);
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        //Action Button
-        tombolMasuk.setOnAction(event ->{
-            if(inputNamaPengguna.getText().equals(Admin.adminusername) && inputKataSandi.getText().equals(Admin.adminpassword)) {
-
-
-                admin.menu();
-                primaryStage.close();
-
-            }else if(inputNamaPengguna.getText().length() == 15 && inputKataSandi.getText().length() < 15){
-
-                try {
-                    if(student.isStudents(inputNamaPengguna)){
-                        pesanLoginGagal.setVisible(false);
-
-                        student.isStudents(inputNamaPengguna);
-
-                    }else{
-                        pesanLoginGagal.setVisible(true);
-                    }
-                } catch (IllegalAdminAccess pesanError) {
-                    pesanLoginGagal.setText(pesanError.getMessage());
-                    pesanLoginGagal.setVisible(true);
-                }
-            }else{
-                pesanLoginGagal.setVisible(true);
-            }
-        });
     }
 }
+

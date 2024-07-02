@@ -2,11 +2,18 @@ package data;
 import books.Book;
 import com.main.LibrarySystem;
 import exception.custom.IllegalAdminAccess;
+import javafx.application.HostServices;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import util.iMenu;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,10 +24,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.net.URI;
 import java.util.ArrayList;
 
-public class Student extends User implements iMenu {
+public class Student extends User  implements iMenu {
     public static ArrayList<UserStudent> dataMahasiswa = new ArrayList<>();
+
 
     //Konstruktor untuk arraylist arr_userStudent.
     public static class UserStudent {
@@ -39,44 +49,88 @@ public class Student extends User implements iMenu {
         Stage studentMenuStage = new Stage();
         studentMenuStage.setTitle("UMM Library - Student Menu");
 
-        //Button
-        Image image = new Image("file:src/main/java/GambarMenuStudent.png");
+        // Background Image
+        Image image = new Image("file:src/main/java/stdnew1.png");
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(720);
         imageView.setFitWidth(1280);
         imageView.setPreserveRatio(false);
 
-        Button tombolBukuTerpinjam = new Button("Buku Terpinjam");
-        Button tombolPinjamBuku = new Button("Pinjam Buku");
-        Button tombolKembalikanBuku = new Button("Kembalikan Buku");
-        Button tombolKembali = new Button("Logout");
+        // Buttons with Images
+        Image imageb1 = new Image("file:src/main/java/std2.png");
+        ImageView imageView1 = new ImageView(imageb1);
+        imageView1.setFitWidth(500);
+        imageView1.setFitHeight(280);
+        Button tombolBukuTerpinjam = new Button();
+        tombolBukuTerpinjam.setGraphic(imageView1);
+        tombolBukuTerpinjam.setStyle("-fx-background-color: transparent;");
 
-        tombolBukuTerpinjam.setFont(Font.font("Roboto", FontWeight.BOLD, 14));
-        tombolPinjamBuku.setFont(Font.font("Roboto", FontWeight.BOLD, 14));
-        tombolKembalikanBuku.setFont(Font.font("Roboto", FontWeight.BOLD, 14));
-        tombolKembali.setFont(Font.font("Roboto", FontWeight.BOLD, 14));
+        Image imageb2 = new Image("file:src/main/java/std3.png");
+        ImageView imageView2 = new ImageView(imageb2);
+        imageView2.setFitWidth(500);
+        imageView2.setFitHeight(280);
+        Button tombolPinjamBuku = new Button();
+        tombolPinjamBuku.setGraphic(imageView2);
+        tombolPinjamBuku.setStyle("-fx-background-color: transparent;");
 
-        //Grid layout
-        GridPane tataletak = new GridPane();
-        tataletak.setAlignment(Pos.CENTER);
+        Image imageb3 = new Image("file:src/main/java/std4.png");
+        ImageView imageView3 = new ImageView(imageb3);
+        imageView3.setFitWidth(500);
+        imageView3.setFitHeight(280);
+        Button tombolKembalikanBuku = new Button();
+        tombolKembalikanBuku.setGraphic(imageView3);
+        tombolKembalikanBuku.setStyle("-fx-background-color: transparent;");
 
-        tataletak.add(tombolBukuTerpinjam, 0,3);
-        tataletak.add(tombolPinjamBuku, 1,3);
-        tataletak.add(tombolKembalikanBuku,2,3);
-        tataletak.add(tombolKembali,3,3);
+        Image imageLogout = new Image("file:src/main/java/LogoutIcon.png");
+        ImageView imageViewLogout = new ImageView(imageLogout);
+        imageViewLogout.setFitWidth(120);
+        imageViewLogout.setFitHeight(30);
+        imageViewLogout.setPreserveRatio(true);
+        Button tombolKembali = new Button("Keluar");
+        tombolKembali.setGraphic(imageViewLogout);
+        tombolKembali.setStyle("-fx-background-color: rgb(220, 0, 0); -fx-text-fill: #ffff; -fx-font-size: 15px; -fx-background-radius: 30;");
 
-        tataletak.setVgap(121);
-        tataletak.setHgap(190);
+
+        Image imageRadio = new Image("file:src/main/java/std5.png");
+        ImageView imageViewRadio = new ImageView(imageRadio);
+        imageViewRadio.setFitWidth(390);
+        imageViewRadio.setFitHeight(390);
+        imageViewRadio.setPreserveRatio(true);
+        Button tombolRadio = new Button("lihat radio");
+        tombolRadio.setGraphic(imageViewRadio);
+        tombolRadio.setStyle("-fx-background-color: transparent;");
+
+
+        // Arrange buttons in a GridPane
+        GridPane buttonLayout = new GridPane();
+        buttonLayout.setAlignment(Pos.CENTER);
+        buttonLayout.setVgap(10);
+        buttonLayout.setHgap(-100);
+
+        buttonLayout.add(tombolBukuTerpinjam, 0, 1);
+        buttonLayout.add(tombolRadio, 0, 2);
+        buttonLayout.add(tombolPinjamBuku, 1, 1);
+        buttonLayout.add(tombolKembalikanBuku, 2, 1);
+        buttonLayout.add(tombolKembali, 1, 0);
+
+        // Set translations for button positioning
+        tombolBukuTerpinjam.setTranslateY(10);
+        tombolPinjamBuku.setTranslateY(10);
+        tombolKembalikanBuku.setTranslateY(10);
+        tombolKembali.setTranslateY(-50);
+        tombolKembali.setTranslateX(640);
+        tombolRadio.setTranslateY(0);
+        tombolRadio.setTranslateX(50);
 
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(imageView, tataletak);
+        stackPane.getChildren().addAll(imageView, buttonLayout);
 
-        Scene studentmenuScene = new Scene(stackPane, 1280, 720);
-        studentMenuStage.setScene(studentmenuScene);
+        Scene studentMenuScene = new Scene(stackPane, 1280, 720);
+        studentMenuStage.setScene(studentMenuScene);
         studentMenuStage.show();
 
-        //Action button
-        tombolBukuTerpinjam.setOnAction(event ->{
+        // Button actions
+        tombolBukuTerpinjam.setOnAction(event -> {
             showBorrowedBooks();
             studentMenuStage.close();
         });
@@ -86,7 +140,7 @@ public class Student extends User implements iMenu {
             studentMenuStage.close();
         });
 
-        tombolKembalikanBuku.setOnAction(event ->{
+        tombolKembalikanBuku.setOnAction(event -> {
             returnBooks();
             studentMenuStage.close();
         });
@@ -95,6 +149,22 @@ public class Student extends User implements iMenu {
             LibrarySystem librarySystemObj = new LibrarySystem();
             librarySystemObj.start(new Stage());
             studentMenuStage.close();
+        });
+
+        tombolRadio.setOnAction(event -> {
+            Stage radioStage = new Stage();
+            radioStage.setTitle("Radio Streaming");
+
+            WebView webView = new WebView();
+            WebEngine webEngine = webView.getEngine();
+            webEngine.load("https://widya-bahana-suara.perpusnas.go.id/live?type=http&nocache=1");
+
+            StackPane root = new StackPane();
+            root.getChildren().add(webView);
+
+            Scene scene = new Scene(root, 800, 600); // Sesuaikan ukuran scene sesuai kebutuhan
+            radioStage.setScene(scene);
+            radioStage.show();
         });
 
     }
@@ -114,7 +184,7 @@ public class Student extends User implements iMenu {
         imageView.setPreserveRatio(false);
 
         TableView<Book> table = new TableView<>();
-        table.setPrefSize(1280, 720);
+        table.setPrefSize(600, 300);
 
         TableColumn<Book, String> kolomIdBuku = new TableColumn<>("ID Buku");
         kolomIdBuku.setCellValueFactory(new PropertyValueFactory<>("bookId"));
@@ -132,6 +202,8 @@ public class Student extends User implements iMenu {
         kolomDurasiPinjam.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
         Button button = new Button("Kembali");
+        button.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
+        button.setPrefSize(600,30);
 
         table.getColumns().add(kolomIdBuku);
         table.getColumns().add(kolomJudulBuku);
@@ -181,20 +253,21 @@ public class Student extends User implements iMenu {
         imageView.setFitHeight(720);
         imageView.setPreserveRatio(false);
 
-        // Labels
+        // Label
         Label judulAtasPage = new Label("Pengembalian buku");
-        Label labelIdBuku = new Label("Inputkan ID buku yang ingin dikembalikan");
-        Label labelUlasan = new Label("Masukkan ulasan Anda");
         TextArea reviewTextArea = new TextArea();
+        reviewTextArea.setPromptText("Masukkan Ulasan Anda");
+        reviewTextArea.setTranslateX(180);
+        reviewTextArea.setPrefSize(600,300);
         reviewTextArea.setPrefRowCount(3);
 
         // Notification Labels
-        Label labelSubmitBerhasil = new Label("Pengembalian berhasil");
-        Label labelSubmitGagal = new Label("Pengembalian gagal");
+        Label labelSubmitBerhasil = new Label("Pengembalian Sukses!");
+        Label labelSubmitGagal = new Label("Pengembalian Gagal!");
 
         // Font Style
         judulAtasPage.setFont(Font.font("Montserrat", FontWeight.BOLD, 20));
-        labelIdBuku.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
+        /*labelIdBuku.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));*/
 
         // Font Color
         judulAtasPage.setStyle("-fx-text-fill: #FFFFFF;");
@@ -207,10 +280,18 @@ public class Student extends User implements iMenu {
 
         // Fields
         TextField bookIdField = new TextField();
+        bookIdField.setPromptText("Masukkan ID Buku Yang Ingin Dipinjam");
+        bookIdField.setTranslateX(180);
 
         // Buttons
-        Button tombolSubmit = new Button("Submit");
+        Button tombolSubmit = new Button("Kirim");
+        tombolSubmit.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
+        tombolSubmit.setPrefSize(298,30);
+        tombolSubmit.setTranslateX(-128);
         Button tombolKembali = new Button("Kembali");
+        tombolKembali.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
+        tombolKembali.setPrefSize(298,30);
+        tombolKembali.setTranslateX(178);
 
         // Table setup
         TableView<Book> tableView = new TableView<>();
@@ -232,30 +313,29 @@ public class Student extends User implements iMenu {
         tableView.getColumns().add(kolomPengarangBuku);
         tableView.getColumns().add(kolomKategoriBuku);
         tableView.getColumns().add(kolomDurasiPinjam);
+        tableView.setMaxSize(600,300);
+        tableView.setTranslateX(180);
 
         tableView.setItems(FXCollections.observableArrayList(Book.arr_borrowedBook));
 
         // Grid layout
-        GridPane tataletak = new GridPane();
-        tataletak.setAlignment(Pos.CENTER);
-        tataletak.setHgap(10);
-        tataletak.setVgap(10);
-        tataletak.setPadding(new Insets(15, 15, 15, 15));
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(15, 15, 15, 15));
 
-        tataletak.add(judulAtasPage, 0, 0, 2, 1);
-        tataletak.add(tableView, 0, 1, 6, 1);
-        tataletak.add(labelIdBuku, 0, 2);
-        tataletak.add(bookIdField, 0, 3);
-        tataletak.add(labelUlasan, 0, 4);
-        tataletak.add(reviewTextArea, 0, 5);
-        tataletak.add(tombolKembali, 0, 6);
-        tataletak.add(tombolSubmit, 1, 6);
-        tataletak.add(labelSubmitBerhasil, 0, 7);
-        tataletak.add(labelSubmitGagal, 0, 7);
-
+        gridPane.add(judulAtasPage, 0, 0, 2, 1);
+        gridPane.add(tableView, 0, 1, 6, 1);
+        gridPane.add(bookIdField, 0, 3);
+        gridPane.add(reviewTextArea, 0, 5);
+        gridPane.add(tombolKembali, 0, 6);
+        gridPane.add(tombolSubmit, 1, 6);
+        gridPane.add(labelSubmitBerhasil, 0, 6);
+        gridPane.add(labelSubmitGagal, 0, 6);
 
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(imageView, tataletak);
+        stackPane.getChildren().addAll(imageView, gridPane);
 
         Scene returnBookScene = new Scene(stackPane, 1280, 720);
         returnBooksStage.setScene(returnBookScene);
@@ -305,7 +385,7 @@ public class Student extends User implements iMenu {
 
     public boolean isStudents(TextField username) throws IllegalAdminAccess {
         if (username.getText().length() != 15) {
-            throw new IllegalAdminAccess("NIM harus 15 digit!");
+            throw new IllegalAdminAccess("NIM Harus 15 Digit!");
         }
         for (UserStudent i : dataMahasiswa) {
             if (i.nim.equals(username.getText())) {

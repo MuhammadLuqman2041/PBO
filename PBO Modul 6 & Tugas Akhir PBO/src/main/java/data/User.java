@@ -41,6 +41,7 @@ public class User {
 
 
         TableView<Book> tableView = new TableView<>();
+        tableView.setPrefSize(600,300);
 
         TableColumn<Book, String> kolomIdBuku = new TableColumn<>("ID Buku");
         kolomIdBuku.setCellValueFactory(new PropertyValueFactory<>("bookId"));
@@ -67,43 +68,53 @@ public class User {
         tableView.getColumns().add(kolomPengarangBuku);
         tableView.getColumns().add(kolomKategoriBuku);
         tableView.getColumns().add(kolomStokBuku);
+        tableView.setTranslateX(180);
 
         for (Book i : Book.arr_bookList) {
             tableView.getItems().add(i);
         }
 
 
-        GridPane tataletak = new GridPane();
-        tataletak.setAlignment(Pos.CENTER);
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
 
-        tataletak.setHgap(10);
-        tataletak.setVgap(10);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
 
-        tataletak.setPadding(new Insets(25, 25, 25, 25));
+        gridPane.setPadding(new Insets(25, 25, 25, 25));
 
-        tataletak.add(tableView, 0, 0);
+        gridPane.add(tableView, 0, 0);
 
-        Label bookIdLabel = new Label("Input ID buku yang ingin dipinjam:");
-        tataletak.add(bookIdLabel, 0, 1);
+        /*Label bookIdLabel = new Label("Input ID buku yang ingin dipinjam:");*/
+        /*gridPane.add(bookIdLabel, 0, 1);*/
 
         TextField inputIdBuku = new TextField();
-        tataletak.add(inputIdBuku, 0, 2);
+        inputIdBuku.setPromptText("Masukkan ID Buku");
+        inputIdBuku.setTranslateX(180);
+        gridPane.add(inputIdBuku, 0, 2);
 
-        Label durationLabel = new Label("Berapa hari ingin meminjam buku? (Max 14 hari)");
+        /*Label durationLabel = new Label("Berapa hari ingin meminjam buku? (Max 14 hari)");*/
 
         TextField durationField = new TextField();
-        durationField.setPromptText("Berapa hari ?");
+        durationField.setTranslateX(180);
+        durationField.setPromptText("Masukkan Durasi Waktu Peminjaman");
 
-        tataletak.add(durationLabel, 0, 3);
-        tataletak.add(durationField, 0, 4);
-        Button tombolSubmit = new Button("Submit");
+        /*gridPane.add(durationLabel, 0, 3);*/
+        gridPane.add(durationField, 0, 4);
+        Button tombolSubmit = new Button("Kirim");
+        tombolSubmit.setTranslateX(-128);
+        tombolSubmit.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
+        tombolSubmit.setPrefSize(298,30);
         Button tombolKembali = new Button("Kembali");
-        tataletak.add(tombolSubmit, 0, 5);
-        tataletak.add(tombolKembali, 0, 6);
+        tombolKembali.setTranslateX(180);
+        tombolKembali.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
+        tombolKembali.setPrefSize(298,30);
+        gridPane.add(tombolSubmit, 1, 5);
+        gridPane.add(tombolKembali, 0, 5);
         Label messageLabel = new Label();
 
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(imageView, tataletak);
+        stackPane.getChildren().addAll(imageView, gridPane);
 
         Scene scene = new Scene(stackPane, 1280, 720);
         choiceBooksStage.setScene(scene);
@@ -129,20 +140,19 @@ public class User {
                             validasi = true;
                             break;
                         } else {
-                            messageLabel.setText("Max 14 hari");
+                            messageLabel.setText("Maksimal 14 Hari");
                         }
                     } else if (i.getStock() == 0) {
-                        messageLabel.setText("== Stok buku habis! ==");
+                        messageLabel.setText("== Stok Buku Kosong! ==");
                         studentObj.menu();
                     }
                 }
             }
             if (validasi) {
-                messageLabel.setText("==== Buku berhasil dipinjam! ====");
+                messageLabel.setText("==== Buku Berhasil Dipinjam! ====");
             } else {
-                messageLabel.setText("== ID tidak ditemukan! ==");
+                messageLabel.setText("== ID Buku Tidak Ditemukan! ==");
             }
-
         });
 
         tombolKembali.setOnAction(event -> {
@@ -162,16 +172,29 @@ public class User {
 
         //Button
 
-        Image image = new Image("file:src/main/java/GambarRevisiBook.png");
+        Image image = new Image("file:src/main/java/ImageAddBook.png");
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(720);
         imageView.setFitWidth(1280);
         imageView.setPreserveRatio(false);
+        //#FF0000
 
         Button tombolHistoryBook = new Button("History Book");
+        tombolHistoryBook.setPrefHeight(70);
+        tombolHistoryBook.setPrefWidth(140);
+        tombolHistoryBook.setStyle("-fx-background-color: #FF0000;");
         Button tombolStoryBook = new Button("Story Book");
+        tombolStoryBook.setPrefHeight(70);
+        tombolStoryBook.setPrefWidth(140);
+        tombolStoryBook.setStyle("-fx-background-color: #FF0000;");
         Button tombolTextBook = new Button("Text Book");
+        tombolTextBook.setPrefHeight(70);
+        tombolTextBook.setPrefWidth(140);
+        tombolTextBook.setStyle("-fx-background-color: #FF0000;");
         Button tombolKembali = new Button("kembali");
+        tombolKembali.setPrefHeight(70);
+        tombolKembali.setPrefWidth(140);
+        tombolKembali.setStyle("-fx-background-color: #FF0000;");
 
         tombolHistoryBook.setFont(Font.font("Tahoma", FontWeight.BOLD, 14));
         tombolStoryBook.setFont(Font.font("Tahoma", FontWeight.BOLD, 14));
@@ -179,19 +202,19 @@ public class User {
         tombolKembali.setFont(Font.font("Tahoma", FontWeight.BOLD, 14));
 
         //Grid layout
-        GridPane tataletak = new GridPane();
-        tataletak.setAlignment(Pos.CENTER);
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
 
-        tataletak.add(tombolHistoryBook, 0, 2);
-        tataletak.add(tombolStoryBook, 1, 2);
-        tataletak.add(tombolTextBook, 2, 2);
-        tataletak.add(tombolKembali, 3, 2);
+        gridPane.add(tombolHistoryBook, 0, 2);
+        gridPane.add(tombolStoryBook, 1, 2);
+        gridPane.add(tombolTextBook, 2, 2);
+        gridPane.add(tombolKembali, 3, 2);
 
-        tataletak.setVgap(120);
-        tataletak.setHgap(210);
+        gridPane.setVgap(120);
+        gridPane.setHgap(145);
 
         StackPane stackPane =new StackPane();
-        stackPane.getChildren().addAll(imageView, tataletak);
+        stackPane.getChildren().addAll(imageView, gridPane);
         Scene scene = new Scene(stackPane, 1280, 720);
         inputBookStage.setScene(scene);
         inputBookStage.show();
@@ -237,26 +260,30 @@ public class User {
 
         //Label
         Label sceneTitleLabel = new Label(addBookSceneTitle);
-        Label bookIdLabel = new Label("ID Buku    :");
-        Label bookTitleLabel = new Label("Judul Buku :");
-        Label authorLabel = new Label("Penulis    :");
-        Label stockLabel = new Label("Stok       :");
 
-        //Notification Label
+        //Label Notifikasi
         Label errorMessageLabel = new Label("Stok harus berupa angka");
 
-        //Field
+        //Input
         TextField inputIdBuku = new TextField(adminObj.generateId());
+        inputIdBuku.setPromptText("ID Buku");
+        inputIdBuku.setPrefSize(600,30);
+        inputIdBuku.setTranslateX(-150);
         TextField inputJudulBuku = new TextField();
+        inputJudulBuku.setPrefSize(600,30);
+        inputJudulBuku.setTranslateX(-150);
+        inputJudulBuku.setPromptText("Judul Buku");
         TextField inputPengarangBuku = new TextField();
+        inputPengarangBuku.setPrefSize(600,30);
+        inputPengarangBuku.setTranslateX(-150);
+        inputPengarangBuku.setPromptText("Pengarang Buku");
         TextField inputStokBuku = new TextField();
+        inputStokBuku.setPrefSize(600,30);
+        inputStokBuku.setTranslateX(-150);
+        inputStokBuku.setPromptText("Stok Buku");
 
         //Font label style
         sceneTitleLabel.setFont(Font.font("Montserrat", FontWeight.BOLD, 20));
-        bookIdLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
-        bookTitleLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
-        authorLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
-        stockLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
 
         //Font label color
         sceneTitleLabel.setStyle("-fx-text-fill: #A91D3A;");
@@ -266,19 +293,20 @@ public class User {
         errorMessageLabel.setVisible(false);
 
         //Button
-        Button submitButton = new Button("Submit");
+        Button submitButton = new Button("Kirim");
+        submitButton.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
+        submitButton.setPrefSize(298,30);
+        submitButton.setTranslateX(150);
         Button backbutton = new Button("Kembali");
-
+        backbutton.setTranslateX(150);
+        backbutton.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
+        backbutton.setPrefSize(298,30);
 
         //Grid layout
         GridPane gridAddBook = new GridPane();
         gridAddBook.setAlignment(Pos.CENTER);
 
         gridAddBook.add(sceneTitleLabel, 1, 0);
-        gridAddBook.add(bookIdLabel, 0, 2);
-        gridAddBook.add(bookTitleLabel, 0, 3);
-        gridAddBook.add(authorLabel, 0, 4);
-        gridAddBook.add(stockLabel, 0, 5);
         gridAddBook.add(errorMessageLabel, 0, 6);
 
         gridAddBook.add(inputIdBuku, 2, 2);
@@ -290,7 +318,7 @@ public class User {
         gridAddBook.add(backbutton, 0, 6);
 
         gridAddBook.setVgap(10);
-        gridAddBook.setHgap(0);
+        gridAddBook.setHgap(-46);
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(imageView,gridAddBook);
