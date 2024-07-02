@@ -152,19 +152,16 @@ public class Student extends User  implements iMenu {
         });
 
         tombolRadio.setOnAction(event -> {
-            Stage radioStage = new Stage();
-            radioStage.setTitle("Radio Streaming");
-
-            WebView webView = new WebView();
-            WebEngine webEngine = webView.getEngine();
-            webEngine.load("https://widya-bahana-suara.perpusnas.go.id/live?type=http&nocache=1");
-
-            StackPane root = new StackPane();
-            root.getChildren().add(webView);
-
-            Scene scene = new Scene(root, 800, 600); // Sesuaikan ukuran scene sesuai kebutuhan
-            radioStage.setScene(scene);
-            radioStage.show();
+            try {
+                // URL yang ingin dibuka
+                String url = "https://widya-bahana-suara.perpusnas.go.id/live?type=http&nocache=1";
+                // Membuka URL di browser default
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    Desktop.getDesktop().browse(new URI(url));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
 
     }
