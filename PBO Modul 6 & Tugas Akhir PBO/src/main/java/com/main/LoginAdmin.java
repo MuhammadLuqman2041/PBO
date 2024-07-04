@@ -13,77 +13,78 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class LoginAdmin {
+
     public void adminlogin() {
-        Stage tampilanAdmin = new Stage();
-        Admin admin = new Admin();
+        // Membuat stage baru untuk tampilan login admin
+        Stage adminStage = new Stage();
+        adminStage.setTitle("UMM Library");
+        Admin admin = new Admin(); // Objek admin untuk memproses data admin
 
-        tampilanAdmin.setTitle("UMM Library");
-        Image image = new Image("file:src/main/java/PerubahanGambar4.png");
-        ImageView imageView = new ImageView(image);
+        // Memuat dan menampilkan gambar latar belakang
+        Image backgroundImage = new Image("file:src/main/java/PerubahanGambar4.png");
+        ImageView backgroundImageView = new ImageView(backgroundImage);
+        backgroundImageView.setFitWidth(1280);
+        backgroundImageView.setFitHeight(720);
+        backgroundImageView.setPreserveRatio(false);
 
-        imageView.setFitWidth(1280);
-        imageView.setFitHeight(720);
-        imageView.setPreserveRatio(false);
+        // Judul "Masuk ke Perpustakaan"
+        Label titleLabel = new Label("Masuk ke Perpustakaan");
+        titleLabel.setFont(Font.font("Montserrat", FontWeight.BOLD, 20));
+        titleLabel.setTranslateX(65);
+        titleLabel.setStyle("-fx-text-fill: #FFFFFF;");
 
-        // Pengaturan font dan gaya
-        Label sceneTitle = new Label("Masuk ke Perpustakaan");
-        sceneTitle.setFont(Font.font("Montserrat", FontWeight.BOLD, 20));
-        sceneTitle.setStyle("-fx-text-fill: #FFFFFF;");
-
-        // Pengaturan grid untuk admin
+        // GridPane untuk menyusun elemen-elemen secara teratur
         GridPane adminGrid = new GridPane();
         adminGrid.setAlignment(Pos.CENTER);
         adminGrid.setVgap(25);
         adminGrid.setHgap(30);
 
-        /*Label adminLabelNamaPengguna = new Label("USERNAME");
-        adminLabelNamaPengguna.setFont(Font.font("Roboto", FontWeight.BOLD, 15));
-        adminLabelNamaPengguna.setStyle("-fx-text-fill: #FFFFFF;");
+        // Label dan input field untuk nama pengguna admin
+        TextField adminUsernameInput = new TextField();
+        adminUsernameInput.setPromptText("Nama Pengguna");
 
-        Label adminLabelKataSandi = new Label("KATA SANDI");
-        adminLabelKataSandi.setFont(Font.font("Roboto", FontWeight.BOLD, 15));
-        adminLabelKataSandi.setStyle("-fx-text-fill: #FFFFFF;");*/
+        // Label dan input field untuk kata sandi admin
+        PasswordField adminPasswordInput = new PasswordField();
+        adminPasswordInput.setPromptText("Kata Sandi");
 
-        TextField adminInputNamaPengguna = new TextField();
-        adminInputNamaPengguna.setPromptText("Nama Pengguna");
-        PasswordField adminInputKataSandi = new PasswordField();
-        adminInputKataSandi.setPromptText("Kata Sandi");
+        // Tombol "Login"
+        Button loginButton = new Button("Login");
+        loginButton.setPrefSize(300,30);
+        loginButton.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
 
-        Button adminTombolMasuk = new Button("Login");
-        adminTombolMasuk.setPrefSize(300,30);
-        adminTombolMasuk.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
-        Label adminPesanLoginGagal = new Label("Pengguna tidak ditemukan");
-        adminPesanLoginGagal.setFont(Font.font("Roboto", FontWeight.NORMAL, 12));
-        adminPesanLoginGagal.setStyle("-fx-text-fill: #FF1E1E;");
-        adminPesanLoginGagal.setVisible(false);
+        // Label untuk pesan kesalahan saat login gagal
+        Label loginFailedLabel = new Label("Pengguna tidak ditemukan");
+        loginFailedLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 12));
+        loginFailedLabel.setStyle("-fx-text-fill: #FF1E1E;");
+        loginFailedLabel.setVisible(false);
 
-        adminGrid.add(sceneTitle, 0, 0, 2, 1);
-        /*adminGrid.add(adminLabelNamaPengguna, 0, 1);*/
-        adminGrid.add(adminInputNamaPengguna, 1, 1);
-        /*adminGrid.add(adminLabelKataSandi, 0, 2);*/
-        adminGrid.add(adminInputKataSandi, 1, 2);
-        adminGrid.add(adminTombolMasuk, 1, 3);
-        adminGrid.add(adminPesanLoginGagal, 1, 4);
+        // Menambahkan elemen-elemen ke dalam GridPane
+        adminGrid.add(titleLabel, 0, 0, 2, 1);
+        adminGrid.add(adminUsernameInput, 1, 1);
+        adminGrid.add(adminPasswordInput, 1, 2);
+        adminGrid.add(loginButton, 1, 3);
+        adminGrid.add(loginFailedLabel, 1, 4);
         adminGrid.setTranslateY(70);
 
-        adminTombolMasuk.setOnAction(event -> {
-            if (adminInputNamaPengguna.getText().equals(Admin.adminusername) &&
-                    adminInputKataSandi.getText().equals(Admin.adminpassword)) {
-
-                admin.menu();
-                tampilanAdmin.close();
+        // Aksi saat tombol "Login" ditekan
+        loginButton.setOnAction(event -> {
+            if (adminUsernameInput.getText().equals(Admin.adminusername) &&
+                    adminPasswordInput.getText().equals(Admin.adminpassword)) {
+                admin.menu(); // Memanggil menu admin jika login berhasil
+                adminStage.close(); // Menutup jendela login admin
             } else {
-                adminPesanLoginGagal.setVisible(true);
-                adminInputKataSandi.clear(); // Kosongkan password jika gagal
+                loginFailedLabel.setVisible(true); // Menampilkan pesan kesalahan jika login gagal
+                adminPasswordInput.clear(); // Mengosongkan password jika login gagal
             }
         });
 
+        // StackPane untuk menampilkan gambar latar belakang dan GridPane di atasnya
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(imageView,adminGrid);
+        stackPane.getChildren().addAll(backgroundImageView, adminGrid);
 
+        // Membuat scene dan menampilkannya di stage
         Scene scene = new Scene(stackPane, 1280, 720);
-        tampilanAdmin.setScene(scene);
-        tampilanAdmin.show();
+        adminStage.setScene(scene);
+        adminStage.show();
     }
 }
-

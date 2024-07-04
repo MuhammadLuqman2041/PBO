@@ -1,6 +1,8 @@
 package data;
+
 import books.Book;
 import com.main.LibrarySystem;
+import com.main.StudentLogin;
 import exception.custom.IllegalAdminAccess;
 import javafx.application.HostServices;
 import javafx.collections.FXCollections;
@@ -28,11 +30,10 @@ import java.awt.*;
 import java.net.URI;
 import java.util.ArrayList;
 
-public class Student extends User  implements iMenu {
+public class Student extends User implements iMenu {
     public static ArrayList<UserStudent> dataMahasiswa = new ArrayList<>();
 
-
-    //Konstruktor untuk arraylist arr_userStudent.
+    // Konstruktor untuk arraylist arr_userStudent
     public static class UserStudent {
         String nama, nim, fakultas, prodi;
 
@@ -50,7 +51,7 @@ public class Student extends User  implements iMenu {
         studentMenuStage.setTitle("UMM Library - Student Menu");
 
         // Background Image
-        Image image = new Image("file:src/main/java/stdnew1.png");
+        Image image = new Image("file:src/main/java/rvsgmbrmenustd.png");
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(720);
         imageView.setFitWidth(1280);
@@ -90,16 +91,14 @@ public class Student extends User  implements iMenu {
         tombolKembali.setGraphic(imageViewLogout);
         tombolKembali.setStyle("-fx-background-color: rgb(220, 0, 0); -fx-text-fill: #ffff; -fx-font-size: 15px; -fx-background-radius: 30;");
 
-
         Image imageRadio = new Image("file:src/main/java/std5.png");
         ImageView imageViewRadio = new ImageView(imageRadio);
         imageViewRadio.setFitWidth(390);
         imageViewRadio.setFitHeight(390);
         imageViewRadio.setPreserveRatio(true);
-        Button tombolRadio = new Button("lihat radio");
+        Button tombolRadio = new Button();
         tombolRadio.setGraphic(imageViewRadio);
         tombolRadio.setStyle("-fx-background-color: transparent;");
-
 
         // Arrange buttons in a GridPane
         GridPane buttonLayout = new GridPane();
@@ -163,14 +162,14 @@ public class Student extends User  implements iMenu {
                 e.printStackTrace();
             }
         });
-
     }
 
     @Override
-    public void choiceBooks(){
+    public void choiceBooks() {
         super.choiceBooks();
     }
-    public static void showBorrowedBooks(){
+
+    public static void showBorrowedBooks() {
         Stage stageTampilkanBukuTerpinjam = new Stage();
         stageTampilkanBukuTerpinjam.setTitle("Informasi Buku Yang Dipinjam");
 
@@ -183,6 +182,7 @@ public class Student extends User  implements iMenu {
         TableView<Book> table = new TableView<>();
         table.setPrefSize(600, 300);
 
+        // Kolom tabel
         TableColumn<Book, String> kolomIdBuku = new TableColumn<>("ID Buku");
         kolomIdBuku.setCellValueFactory(new PropertyValueFactory<>("bookId"));
 
@@ -200,14 +200,11 @@ public class Student extends User  implements iMenu {
 
         Button button = new Button("Kembali");
         button.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
-        button.setPrefSize(600,30);
+        button.setPrefSize(600, 30);
 
-        table.getColumns().add(kolomIdBuku);
-        table.getColumns().add(kolomJudulBuku);
-        table.getColumns().add(kolomPengarangBuku);
-        table.getColumns().add(kolomKategoriBuku);
-        table.getColumns().add(kolomDurasiPinjam);
+        table.getColumns().addAll(kolomIdBuku, kolomJudulBuku, kolomPengarangBuku, kolomKategoriBuku, kolomDurasiPinjam);
 
+        // Menambahkan item ke tabel
         for (Book a : Book.arr_borrowedBook) {
             for (Book i : Book.arr_bookList) {
                 if (i.getBookId().equals(a.getBookId())) {
@@ -222,20 +219,19 @@ public class Student extends User  implements iMenu {
             stageTampilkanBukuTerpinjam.close();
         });
 
-
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
 
         gridPane.add(table, 1, 0);
-        gridPane.add(button, 1, 1);// menambahkan tabel ke GridPane
+        gridPane.add(button, 1, 1);
 
         gridPane.setVgap(10);
         gridPane.setHgap(5);
 
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(imageView,gridPane);
+        stackPane.getChildren().addAll(imageView, gridPane);
 
-        Scene scene = new Scene(stackPane,1280,720);
+        Scene scene = new Scene(stackPane, 1280, 720);
         stageTampilkanBukuTerpinjam.setScene(scene);
         stageTampilkanBukuTerpinjam.show();
     }
@@ -255,7 +251,7 @@ public class Student extends User  implements iMenu {
         TextArea reviewTextArea = new TextArea();
         reviewTextArea.setPromptText("Masukkan Ulasan Anda");
         reviewTextArea.setTranslateX(180);
-        reviewTextArea.setPrefSize(600,300);
+        reviewTextArea.setPrefSize(600, 300);
         reviewTextArea.setPrefRowCount(3);
 
         // Notification Labels
@@ -264,7 +260,9 @@ public class Student extends User  implements iMenu {
 
         // Font Style
         judulAtasPage.setFont(Font.font("Montserrat", FontWeight.BOLD, 20));
-        /*labelIdBuku.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));*/
+
+        // ini buat geser judul atas
+        judulAtasPage.setTranslateX(170);
 
         // Font Color
         judulAtasPage.setStyle("-fx-text-fill: #FFFFFF;");
@@ -283,16 +281,18 @@ public class Student extends User  implements iMenu {
         // Buttons
         Button tombolSubmit = new Button("Kirim");
         tombolSubmit.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
-        tombolSubmit.setPrefSize(298,30);
+        tombolSubmit.setPrefSize(298, 30);
         tombolSubmit.setTranslateX(-128);
+
         Button tombolKembali = new Button("Kembali");
         tombolKembali.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
-        tombolKembali.setPrefSize(298,30);
+        tombolKembali.setPrefSize(298, 30);
         tombolKembali.setTranslateX(178);
 
         // Table setup
         TableView<Book> tableView = new TableView<>();
 
+        // Kolom tabel
         TableColumn<Book, String> kolomIdBuku = new TableColumn<>("ID Buku");
         TableColumn<Book, String> kolomJudulBuku = new TableColumn<>("Judul");
         TableColumn<Book, String> kolomPengarangBuku = new TableColumn<>("Author");
@@ -305,14 +305,11 @@ public class Student extends User  implements iMenu {
         kolomKategoriBuku.setCellValueFactory(new PropertyValueFactory<>("category"));
         kolomDurasiPinjam.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
-        tableView.getColumns().add(kolomIdBuku);
-        tableView.getColumns().add(kolomJudulBuku);
-        tableView.getColumns().add(kolomPengarangBuku);
-        tableView.getColumns().add(kolomKategoriBuku);
-        tableView.getColumns().add(kolomDurasiPinjam);
-        tableView.setMaxSize(600,300);
+        tableView.getColumns().addAll(kolomIdBuku, kolomJudulBuku, kolomPengarangBuku, kolomKategoriBuku, kolomDurasiPinjam);
+        tableView.setMaxSize(600, 300);
         tableView.setTranslateX(180);
 
+        // Menampilkan data dari arr_borrowedBook
         tableView.setItems(FXCollections.observableArrayList(Book.arr_borrowedBook));
 
         // Grid layout
@@ -343,6 +340,7 @@ public class Student extends User  implements iMenu {
             boolean validasiReturnBooks = false;
             String inputBookId = bookIdField.getText();
 
+            // Mencari buku yang akan dikembalikan
             for (int i = 0; i < Book.arr_borrowedBook.size(); i++) {
                 Book borrowedBook = Book.arr_borrowedBook.get(i);
 
@@ -364,6 +362,7 @@ public class Student extends User  implements iMenu {
             tableView.setItems(FXCollections.observableArrayList(Book.arr_borrowedBook));
             tableView.refresh();
 
+            // Menampilkan notifikasi pengembalian berhasil atau gagal
             if (validasiReturnBooks) {
                 labelSubmitBerhasil.setVisible(true);
                 labelSubmitGagal.setVisible(false);
@@ -380,16 +379,20 @@ public class Student extends User  implements iMenu {
         });
     }
 
+    // Validasi apakah pengguna adalah mahasiswa
     public boolean isStudents(TextField username) throws IllegalAdminAccess {
         if (username.getText().length() != 15) {
             throw new IllegalAdminAccess("NIM Harus 15 Digit!");
         }
+
+        // Memeriksa apakah NIM ada dalam data mahasiswa
         for (UserStudent i : dataMahasiswa) {
             if (i.nim.equals(username.getText())) {
-                menu();
-                return false;
+                menu(); // Jika NIM ditemukan, tampilkan menu mahasiswa
+                return true;
             }
         }
+
         throw new IllegalAdminAccess("NIM tidak ditemukan!");
     }
 }

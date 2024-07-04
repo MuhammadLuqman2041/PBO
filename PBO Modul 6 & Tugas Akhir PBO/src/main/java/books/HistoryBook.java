@@ -1,33 +1,34 @@
 package books;
 
-public class HistoryBook extends Book{
-    private String category;
+public class HistoryBook extends Book {
+    private String category; // Kategori buku sejarah
 
-    //2 nama method yg sama, bertujuan untuk menerapkan fungsi overloading. (Modul 3)
-    public HistoryBook(){
-
-    }
-    public HistoryBook(String category){
-        super(category);
-        this.category = category;
+    // Konstruktor default (tanpa parameter)
+    public HistoryBook() {
 
     }
 
-    //============================== SETTER =============================
-    //setter yang override dari class Book.
+    // Konstruktor dengan parameter category
+    public HistoryBook(String category) {
+        super(category); // Memanggil konstruktor superclass dengan parameter category
+        this.category = category; // Menginisialisasi atribut category
+    }
+
+    // Setter untuk mengatur kategori buku sejarah
     @Override
-    public void setCategory(String category){
+    public void setCategory(String category) {
         this.category = category;
     }
 
-    //============================== GETTER =============================
-    //Getter yang override dari class Book.
+    // Getter untuk mendapatkan kategori buku sejarah
     @Override
-    public String getCategory(){
+    public String getCategory() {
         return category;
     }
+
+    // Metode toString untuk mengembalikan representasi String dari kategori
     @Override
-    public String toString(){
+    public String toString() {
         return category;
     }
 }

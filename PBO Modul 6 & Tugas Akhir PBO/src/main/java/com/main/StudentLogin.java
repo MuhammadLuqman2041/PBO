@@ -18,61 +18,81 @@ import javafx.stage.Stage;
 public class StudentLogin {
 
     public void LoginStudent() {
-        Stage tampilanStudent = new Stage();
-        tampilanStudent.setTitle("student");
-        Student student = new Student();
+        // Membuat stage baru untuk tampilan login mahasiswa
+        Stage studentStage = new Stage();
+        studentStage.setTitle("Login Mahasiswa");
+        Student student = new Student(); // Objek untuk memproses data mahasiswa
 
+        // GridPane untuk menyusun elemen-elemen secara teratur
         GridPane studentGrid = new GridPane();
         studentGrid.setAlignment(Pos.CENTER);
         studentGrid.setVgap(10);
         studentGrid.setHgap(5);
 
-        Image image = new Image("file:src/main/java/gmb.png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(1280);
-        imageView.setFitHeight(720);
+        // Label judul "Student Login"
+        Label titleLabel = new Label("Student Login");
+        titleLabel.setFont(Font.font("Montserrat", FontWeight.BOLD, 20));
+        titleLabel.setTranslateX(85);
+        titleLabel.setTranslateY(65);
+        titleLabel.setStyle("-fx-text-fill: #FFFFFF;");
 
-        TextField studentInputNamaPengguna = new TextField();
-        studentInputNamaPengguna.setPromptText("Masukkan NIM");
-        studentInputNamaPengguna.setTranslateY(50);
+        // Gambar latar belakang
+        Image backgroundImage = new Image("file:src/main/java/studentFoto.png");
+        ImageView backgroundImageView = new ImageView(backgroundImage);
+        backgroundImageView.setFitWidth(1280);
+        backgroundImageView.setFitHeight(720);
 
-        Button studentTombolMasuk = new Button("Masuk");
-        studentTombolMasuk.setPrefSize(300,30);
-        studentTombolMasuk.setTranslateY(50);
-        studentTombolMasuk.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
-        Label studentPesanLoginGagal = new Label("Pengguna tidak ditemukan");
-        studentPesanLoginGagal.setFont(Font.font("Roboto", FontWeight.NORMAL, 12));
-        studentPesanLoginGagal.setStyle("-fx-text-fill: #FF1E1E;");
-        studentPesanLoginGagal.setVisible(false);
+        // TextField untuk input NIM mahasiswa
+        TextField studentUsernameInput = new TextField();
+        studentUsernameInput.setPromptText("Masukkan NIM");
+        studentUsernameInput.setTranslateY(70);
 
-        studentGrid.add(studentInputNamaPengguna, 1, 0);
-        studentGrid.add(studentTombolMasuk, 1, 2);
-        studentGrid.add(studentPesanLoginGagal, 1, 3);
+        // Tombol "Masuk"
+        Button loginButton = new Button("Masuk");
+        loginButton.setPrefSize(300,30);
+        loginButton.setTranslateY(80);
+        loginButton.setStyle("-fx-background-color: #4267B2; -fx-text-fill: #FFFFFF; -fx-font-size: 15px;");
 
+        // Label untuk pesan kesalahan saat login gagal
+        Label loginFailedLabel = new Label("Pengguna tidak ditemukan");
+        loginFailedLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 12));
+        loginFailedLabel.setStyle("-fx-text-fill: #FF1E1E;");
+        loginFailedLabel.setVisible(false);
+
+        // Menambahkan elemen-elemen ke dalam GridPane
+        studentGrid.add(titleLabel, 1, 0);
+        studentGrid.add(studentUsernameInput, 1, 1);
+        studentGrid.add(loginButton, 1, 2);
+        studentGrid.add(loginFailedLabel, 1, 3);
+
+        // StackPane untuk menampilkan gambar latar belakang dan GridPane di atasnya
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(imageView, studentGrid);
+        stackPane.getChildren().addAll(backgroundImageView, studentGrid);
 
+        // Membuat scene dan menampilkannya di stage
         Scene scene = new Scene(stackPane, 1280, 720);
-        tampilanStudent.setScene(scene);
-        tampilanStudent.show();
+        studentStage.setScene(scene);
+        studentStage.show();
 
-        studentTombolMasuk.setOnAction(event -> {
-            if (studentInputNamaPengguna.getText().length() == 15) {
+        // Aksi saat tombol "Masuk" ditekan
+        loginButton.setOnAction(event -> {
+            if (studentUsernameInput.getText().length() == 15) { // Panjang NIM harus 15 karakter
                 try {
-                    if (student.isStudents(studentInputNamaPengguna)) {
-                        studentPesanLoginGagal.setVisible(false);
+                    if (student.isStudents(studentUsernameInput)) { // Memeriksa validitas mahasiswa
+                        loginFailedLabel.setVisible(true); // Tampilkan pesan kesalahan
+                        studentStage.close(); // Tutup jendela login mahasiswa
                     } else {
-                        studentPesanLoginGagal.setVisible(true);
+                        loginFailedLabel.setVisible(true); // Tampilkan pesan kesalahan
                     }
-                } catch (IllegalAdminAccess pesanError) {
-                    studentPesanLoginGagal.setText(pesanError.getMessage());
-                    studentPesanLoginGagal.setVisible(true);
+                } catch (IllegalAdminAccess error) {
+                    loginFailedLabel.setText(error.getMessage()); // Menangani kesalahan kustom
+                    loginFailedLabel.setVisible(false); // Sembunyikan pesan kesalahan
                 }
             } else {
-                studentPesanLoginGagal.setVisible(true);
+                loginFailedLabel.setVisible(true); // Tampilkan pesan kesalahan
             }
         });
 
-        studentGrid.requestFocus(); // Memastikan promptText terlihat
+        studentGrid.requestFocus(); // Fokus ke GridPane untuk memastikan promptText terlihat
     }
 }

@@ -1,35 +1,34 @@
 package books;
-public class TextBook extends Book{
-    private String category;
 
-    //2 nama method yg sama, bertujuan untuk menerapkan fungsi overloading. (Modul 3)
-    public TextBook(){
+public class TextBook extends Book {
+    private String category; // Kategori buku teks
 
-    }
-    public TextBook(String category){
-        super(category);
-        this.category = category;
+    // Konstruktor default (tanpa parameter)
+    public TextBook() {
 
     }
 
-    //============================== SETTER =============================
-    //setter yang override dari class Book.
+    // Konstruktor dengan parameter category
+    public TextBook(String category) {
+        super(category); // Memanggil konstruktor superclass dengan parameter category
+        this.category = category; // Menginisialisasi atribut category
+    }
+
+    // Setter untuk mengatur kategori buku teks
     @Override
     public void setCategory(String category) {
         this.category = category;
-
     }
 
-    //============================== GETTER =============================
-    //Getter yang override dari class Book
+    // Getter untuk mendapatkan kategori buku teks
     @Override
     public String getCategory() {
         return category;
     }
 
+    // Metode toString untuk mengembalikan representasi String dari kategori
     @Override
-    public  String toString(){
+    public String toString() {
         return category;
     }
-
 }

@@ -1,32 +1,34 @@
 package books;
+
 public class StoryBook extends Book {
-    private String category;
+    private String category; // Kategori buku cerita
 
-    public StoryBook(){
+    // Konstruktor default (tanpa parameter)
+    public StoryBook() {
 
     }
+
+    // Konstruktor dengan parameter category
     public StoryBook(String category) {
-        super(category);
-        this.category = category;
+        super(category); // Memanggil konstruktor superclass dengan parameter category
+        this.category = category; // Menginisialisasi atribut category
     }
 
-    //============================== SETTER =============================
-    //setter yang override dari class Book.
+    // Setter untuk mengatur kategori buku cerita
     @Override
     public void setCategory(String category) {
         this.category = category;
     }
 
-    //============================== GETTER =============================
-    //Getter yang override dari class Book.
+    // Getter untuk mendapatkan kategori buku cerita
     @Override
     public String getCategory() {
         return category;
     }
 
+    // Metode toString untuk mengembalikan representasi String dari kategori
     @Override
     public String toString() {
         return category;
     }
-
 }
